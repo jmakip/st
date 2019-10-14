@@ -232,6 +232,9 @@ static STREscape strescseq;
 static int iofd = 1;
 static int cmdfd;
 static pid_t pid;
+extern opt_debug_esc;
+extern opt_debug_str;
+
 
 static uchar utfbyte[UTF_SIZ + 1] = {0x80,    0, 0xC0, 0xE0, 0xF0};
 static uchar utfmask[UTF_SIZ + 1] = {0xC0, 0x80, 0xE0, 0xF0, 0xF8};
@@ -1655,6 +1658,8 @@ csihandle(void)
 {
 	char buf[40];
 	int len;
+  if (opt_debug_esc)
+    fprintf(stdout,"\033[31m CSI: \033[m %s\n", csiescseq.buf);
 
 	switch (csiescseq.mode[0]) {
 	default:
@@ -2407,6 +2412,7 @@ tputc(Rune u)
 		strescseq.len += len;
 		return;
 	}
+
 
 check_control_code:
 	/*

@@ -210,6 +210,8 @@ static DC dc;
 static XWindow xw;
 static XSelection xsel;
 static TermWindow win;
+int opt_debug_esc = 0;
+int opt_debug_str = 0;
 
 /* Font Ring Cache */
 enum {
@@ -1913,11 +1915,11 @@ run(void)
 void
 usage(void)
 {
-	die("usage: %s [-aiv] [-c class] [-f font] [-g geometry]"
+	die("usage: %s [-adDiv] [-c class] [-f font] [-g geometry]"
 	    " [-n name] [-o file]\n"
 	    "          [-T title] [-t title] [-w windowid]"
 	    " [[-e] command [args ...]]\n"
-	    "       %s [-aiv] [-c class] [-f font] [-g geometry]"
+	    "       %s [-adDiv] [-c class] [-f font] [-g geometry]"
 	    " [-n name] [-o file]\n"
 	    "          [-T title] [-t title] [-w windowid] -l line"
 	    " [stty_args ...]\n", argv0, argv0);
@@ -1937,6 +1939,12 @@ main(int argc, char *argv[])
 	case 'c':
 		opt_class = EARGF(usage());
 		break;
+  case 'd':
+    opt_debug_esc = 1;
+    break;
+  case 'D':
+    opt_debug_str = 1;
+    break;
 	case 'e':
 		if (argc > 0)
 			--argc, ++argv;
